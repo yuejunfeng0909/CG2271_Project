@@ -1,12 +1,14 @@
 // Load Wi-Fi library
 #include <WiFi.h>
+#include <WiFiClient.h>
+#include <WiFiAP.h>
 
 #define RXD2 16
 #define TXD2 17
 
 // Replace with your network credentials
-const char* ssid = "HUAWEI-E10WO7";
-const char* password = "1Q3E2w4r";
+const char* ssid = "CG2271-B01-01";
+const char* password = "nicaicaikan";
 
 // Set web server port number to 80
 WiFiServer server(80);
@@ -29,10 +31,10 @@ const long timeoutTime = 2000;
 int wait30 = 30000; // time to reconnect when connection is lost.
 
 // This is your Static IP
-IPAddress local_IP(192, 168, 3, 189); 
+IPAddress local_IP(192, 168, 4, 1); 
 // Gateway IP address
-IPAddress gateway(192, 168, 3, 1);
-IPAddress subnet(255, 255, 0, 0);
+IPAddress gateway(192, 168, 4, 1);
+IPAddress subnet(255, 255, 255, 0);
 IPAddress primaryDNS(8, 8, 8, 8);
 IPAddress secondaryDNS(8, 8, 4, 4); 
 
@@ -45,37 +47,19 @@ void setup() {
   digitalWrite(output26, LOW);
 
   //Configure Static IP
-  if(!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS))
-  {
-    Serial.println("Static IP failed to configure");
+  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+    Serial.println("STA Failed to configure");
   }
-
-  // Connect to Wi-Fi network with SSID and password
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  // Print local IP address and start web server
-  Serial.println("");
-  Serial.println("WiFi connected.");
-  Serial.println("IP address: ");
-  ip_address = WiFi.localIP().toString();
-  Serial.println(ip_address);
+  WiFi.softAP(ssid, password);
+  IPAddress myIP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(myIP);
   server.begin();
+
+  Serial.println("Server started");
 }
 
 void loop() {
-
-// If disconnected, try to reconnect every 30 seconds.
-  if ((WiFi.status() != WL_CONNECTED) && (millis() > wait30)) {
-    Serial.println("Trying to reconnect WiFi...");
-    WiFi.disconnect();
-    WiFi.begin(ssid, password);
-    wait30 = millis() + 30000;
-  } 
   // Check if a client has connected..
   WiFiClient client = server.available();
   if (!client) {
@@ -84,68 +68,26 @@ void loop() {
    
   Serial.print("New client: ");
   Serial.println(client.remoteIP());
-   
-  // Espera hasta que el cliente envíe datos.
-  // while(!client.available()){ delay(1); }
-
+  
   /////////////////////////////////////////////////////
   // Read the information sent by the client.
   String req = client.readStringUntil('\r');
-  Serial.println(req);
 
   // Make the client's request.
   if(req.indexOf("status") != -1)
   {
     response = "WiFi Connected: " + ip_address;
   }
-  if(req.indexOf("onRed") != -1)
-  {
-    digitalWrite(output26, HIGH);
-    response = "RED LED ON";
-    Serial2.write(0x31);
-  }
-  if(req.indexOf("offRed") != -1)
-  {
-    digitalWrite(output26, LOW);
-    response = "RED LED OFF";
-    Serial2.write(0x30);
-  }  
-  if(req.indexOf("onGreen") != -1)
-  {
-    digitalWrite(output26, HIGH);
-    response = "GREEN LED ON";
-    Serial2.write(0x33);
-  }
-  if(req.indexOf("offGreen") != -1)
-  {
-    digitalWrite(output26, LOW);
-    response = "GREEN LED OFF";
-    Serial2.write(0x32);
-  }
-  if(req.indexOf("onBlue") != -1)
-  {
-    digitalWrite(output26, HIGH);
-    response = "BLUE LED ON";
-    Serial2.write(0x35);
-  }
-  if(req.indexOf("offBlue") != -1)
-  {
-    digitalWrite(output26, LOW);
-    response = "BLUE LED OFF";
-    Serial2.write(0x34);
-  }
-  /*
-       if (req.indexOf("on12") != -1) {digitalWrite(LED12, HIGH); estado = "LED12 ON";}
-       if (req.indexOf("off12") != -1){digitalWrite(LED12, LOW); estado = "LED12 OFF";}
-       if (req.indexOf("on14") != -1) {digitalWrite(LED14, HIGH); estado = "LED14 ON";}
-       if (req.indexOf("off14") != -1){digitalWrite(LED14, LOW); estado = "LED14 OFF";}
-       if (req.indexOf("consulta") != -1){
-           estado ="";
-           if (digitalRead(LED12) == HIGH) {estado = "LED12 ON,";} else {estado = "LED12 OFF,";}
-           if (digitalRead(LED14) == HIGH) {estado = estado + "LED14 ON";} else {estado = estado + "LED14 OFF";}
-           }*/
-           
 
+  String msg = req.substring(5, 7);
+  uint8_t msg1 = msg.charAt(0) - '0';
+  uint8_t msg2 = msg.charAt(1) - '0';
+  uint8_t result = (msg1 << 4) + msg2;
+  Serial.println(result);
+
+  response = "OK";
+  Serial2.write(result);
+  
   client.println("HTTP/1.1 200 OK");
   client.println("Content-Type: text/html");
   client.println(""); 
@@ -154,4 +96,5 @@ void loop() {
   client.flush();
   client.stop();
   Serial.println("Client disconnected.");
+
 }
