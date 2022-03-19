@@ -4,17 +4,17 @@
 #define TPM0_PRESCALER 7
 
 uint8_t TPM0_frequency = 50;
-uint8_t TPM0_dutyCycle = 50;
+uint8_t TPM0_dutyCycle = 30;
 
 void initMotor(void)
 {
 	// enable clock for PORT D module
 	SIM_SCGC5 |= SIM_SCGC5_PORTD_MASK;
 	
-	PORTD -> PCR[PTD0_PIN] &= ~PORT_PCR_MUX_MASK; // reset PORTD pin 0 to disable mode
-	PORTD -> PCR[PTD1_PIN] &= ~PORT_PCR_MUX_MASK; // reset PORTD pin 1 to disable mode
-	PORTD -> PCR[PTD2_PIN] &= ~PORT_PCR_MUX_MASK; // reset PORTD pin 2 to disable mode
-	PORTD -> PCR[PTD3_PIN] &= ~PORT_PCR_MUX_MASK; // reset PORTD pin 3 to disable mode
+	PORTC -> PCR[PTC1_PIN] &= ~PORT_PCR_MUX_MASK; // reset PORTD pin 0 to disable mode
+	PORTC -> PCR[PTC2_PIN] &= ~PORT_PCR_MUX_MASK; // reset PORTD pin 1 to disable mode
+	PORTC -> PCR[PTC3_PIN] &= ~PORT_PCR_MUX_MASK; // reset PORTD pin 2 to disable mode
+	PORTC -> PCR[PTC4_PIN] &= ~PORT_PCR_MUX_MASK; // reset PORTD pin 3 to disable mode
 	
 	// enable clock for TPM0 module
 	SIM_SCGC6 |= SIM_SCGC6_TPM0_MASK;
@@ -30,7 +30,7 @@ void initMotor(void)
 	
 	TPM0 -> SC &= ~((TPM_SC_CMOD_MASK) | (TPM_SC_PS_MASK)); // reset counter to disable and prescaler to 1
 	// LPTPM counter increments on every LPTPM counter clock, TPM0 prescaler to 2^7 = 128
-	TPM0 -> SC |= (TPM_SC_CMOD(1) | TPM_SC_PS(1 << TPM0_PRESCALER));
+	TPM0 -> SC |= (TPM_SC_CMOD(1) | TPM_SC_PS(TPM0_PRESCALER));
 	TPM0 -> SC &= ~(TPM_SC_CPWMS_MASK); // LPTPM counter operates in up counting mode.
 	
 	TPM0_C0SC &= ~(TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK | TPM_CnSC_MSA_MASK | TPM_CnSC_MSB_MASK); // clear mode for channel 0
@@ -45,15 +45,16 @@ void initMotor(void)
 
 void enableMotor(uint8_t motor)
 {
-	PORTD -> PCR[motor] |= PORT_PCR_MUX(3);
+	PORTC -> PCR[motor] |= PORT_PCR_MUX(4);
 }
 
 void disableMotor(uint8_t motor)
 {
-	PORTD -> PCR[motor] &= ~PORT_PCR_MUX_MASK;
+	PORTC -> PCR[motor] &= ~PORT_PCR_MUX_MASK;
 }
 
 void setMotion(void)
 {
 	enableMotor(LEFT_B1);
+	enableMotor(RIGHT_B1);
 }

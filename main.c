@@ -13,12 +13,12 @@
 /*----------------------------------------------------------------------------
  * Application main thread
  *---------------------------------------------------------------------------*/
-static void delay(volatile uint32_t nof) {
-	while(nof!=0) {
-		__ASM("NOP");
-		nof--;
-	}
-}
+//static void delay(volatile uint32_t nof) {
+//	while(nof!=0) {
+//		__ASM("NOP");
+//		nof--;
+//	}
+//}
  
 int main (void) {
  
@@ -28,6 +28,7 @@ int main (void) {
 	initLED();
 	initUART2();
 	initMotor();
+	setMotion();
   // ...
  
   osKernelInitialize();                 // Initialize CMSIS-RTOS
