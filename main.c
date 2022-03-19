@@ -23,6 +23,7 @@ int main (void) {
  
   // System Initialization
   SystemCoreClockUpdate();
+	Init_brain();
 	InitLED();
 	initUART2();
   // ...

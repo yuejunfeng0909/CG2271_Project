@@ -1,8 +1,9 @@
 #include "UART_control.h"
 #include "led_control.h"
+#include "brain.h"
 
 uint8_t remote_command = 0;
-extern osSemaphoreId_t LED_sem;
+extern osSemaphoreId_t brain_sem;
 
 /* Init UART2 */
 void initUART2(void)
@@ -49,6 +50,5 @@ void UART2_IRQHandler (void) {
 		remote_command = UART2->D;
 	}
 	
-	osSemaphoreRelease(LED_sem);
-	
+	osSemaphoreRelease(brain_sem);
 }
