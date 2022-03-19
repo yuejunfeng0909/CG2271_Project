@@ -1,3 +1,6 @@
+#ifndef BRAIN_H_
+#define BRAIN_H_
+
 #include "MKL25Z4.h"                    // Device header
 #include "UART_control.h"
 #include "led_control.h"
@@ -6,24 +9,12 @@
 #define SPEED_COMMAND 0b10u
 #define LED_COMMAND 0b11u
 #define BUZZER_COMMAND 0b100u
-#define SELF_DRIVING_COMMAND 0d5u
-
-osSemaphoreId_t brain_sem;
+#define SELF_DRIVING_COMMAND 0b101u
 
 extern osSemaphoreId_t LED_sem;
 
-void Init_brain(void) {
-	brain_sem = osSemaphoreNew(1, 0, NULL);
-}
+void initBrain(void);
 
-void brain_thread(void *arguments) {
-	// decode command
-	for (;;) {
-		osSemaphoreAcquire(brain_sem, osWaitForever);
-		switch (remote_command >> 3) {
-			case LED_COMMAND:
-				osSemaphoreRelease(LED_sem);
-				break;
-		}
-	}
-}
+void brain_thread(void *arguments);
+
+#endif

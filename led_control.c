@@ -53,7 +53,7 @@ void led_control(enum color_t color)
 	}
 }
 
-void InitLED(void)
+void initLED(void)
 {
 	// Enable Clock to PORTB and PORTD
 	SIM->SCGC5 |= ((SIM_SCGC5_PORTB_MASK) | (SIM_SCGC5_PORTD_MASK));

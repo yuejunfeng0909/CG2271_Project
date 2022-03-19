@@ -8,6 +8,7 @@
 #include "brain.h"
 #include "UART_control.h"
 #include "led_control.h"
+#include "motor_control.h"
  
 /*----------------------------------------------------------------------------
  * Application main thread
@@ -23,9 +24,10 @@ int main (void) {
  
   // System Initialization
   SystemCoreClockUpdate();
-	Init_brain();
-	InitLED();
+	initBrain();
+	initLED();
 	initUART2();
+	initMotor();
   // ...
  
   osKernelInitialize();                 // Initialize CMSIS-RTOS

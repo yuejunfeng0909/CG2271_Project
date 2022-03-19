@@ -3,6 +3,7 @@
 
 #include "MKL25Z4.h"                    // Device header
 #include "cmsis_os2.h"
+#include "brain.h"
 
 #define BAUD_RATE 9600
 #define UART_TX_PORTE22 22
@@ -10,6 +11,7 @@
 #define UART2_INT_PRIO 128
 
 extern uint8_t remote_command;
+extern osSemaphoreId_t brain_sem;
 
 /* Init UART2 */
 void initUART2(void);

@@ -16,7 +16,7 @@ void initPWM(void)
 	PORTB -> PCR[PTB0_Pin] &= ~PORT_PCR_MUX_MASK; // reset PORTB pin 0 to disable mode
 	PORTB -> PCR[PTB0_Pin] |= PORT_PCR_MUX(3); // Set signal mux to TPM1_CH0
 	
-	// enable clock for TPM0 module
+	// enable clock for TPM1 module
 	SIM_SCGC6 |= SIM_SCGC6_TPM1_MASK;
 	
 	SIM_SOPT2 &= ~SIM_SOPT2_TPMSRC_MASK; // clear TPM0 clock source

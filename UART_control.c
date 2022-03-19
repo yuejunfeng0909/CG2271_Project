@@ -3,7 +3,6 @@
 #include "brain.h"
 
 uint8_t remote_command = 0;
-extern osSemaphoreId_t brain_sem;
 
 /* Init UART2 */
 void initUART2(void)

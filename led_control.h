@@ -22,7 +22,7 @@ void led_b(uint8_t val);
 
 void led_control(enum color_t color);
 
-void InitLED(void);
+void initLED(void);
 
 void led_control_thread(void *arguments);
 

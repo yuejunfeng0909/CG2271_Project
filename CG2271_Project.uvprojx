@@ -432,6 +432,16 @@
               <FileType>5</FileType>
               <FilePath>.\motor_control.h</FilePath>
             </File>
+            <File>
+              <FileName>motor_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\motor_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>brain.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\brain.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -21,13 +21,8 @@
 #define TPM0_CLK_FREQ 48000000
 #define TPM0_PRESCALER 7
 
-uint8_t freq = 50;
-uint8_t dutyCycle = 50;
-
 void initMotor(void);
-void setFrequency(int frequency);
-void setDutyCycle(uint32_t *channel, int dutyCycle);
 void setMotorSpeed(int speed);
-void setMotorDirection();
+void setMotion(void);
 
 #endif
