@@ -9,6 +9,7 @@
 #include "UART_control.h"
 #include "led_control.h"
 #include "motor_control.h"
+#include "audio_control.h"
  
 /*----------------------------------------------------------------------------
  * Application main thread
@@ -28,11 +29,13 @@ int main (void) {
 	initLED();
 	initUART2();
 	initMotor();
+	initAudio();
   // ...
  
   osKernelInitialize();                 // Initialize CMSIS-RTOS
   osThreadNew(brain_thread, NULL, NULL);
 	osThreadNew(led_control_thread, NULL, NULL);
+	osThreadNew(audio_control_thread, NULL, NULL);
   osKernelStart();                      // Start thread execution
   for (;;) {}
 }

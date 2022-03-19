@@ -5,14 +5,12 @@
 
 #define PTB0_Pin 0
 
-#define TPM1_CLK_FREQ 48000000
-#define TPM1_PRESCALER 7
+#define C_Freq 262
+#define G_Freq 392
+#define A_Freq 440
 
-uint8_t freq = 50;
-uint8_t dutyCycle = 50;
-
-void initPWM(void);
-void setFrequency(int frequency);
-void setDutyCycle(int dutyCycle);
+void initAudio(void);
+void playSong(void);
+void audio_control_thread(void *arguments);
 
 #endif
