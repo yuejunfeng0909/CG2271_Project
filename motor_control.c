@@ -9,7 +9,7 @@ uint8_t TPM0_dutyCycle = 30;
 void initMotor(void)
 {
 	// enable clock for PORT D module
-	SIM_SCGC5 |= SIM_SCGC5_PORTD_MASK;
+	SIM_SCGC5 |= SIM_SCGC5_PORTC_MASK;
 	
 	PORTC -> PCR[PTC1_PIN] &= ~PORT_PCR_MUX_MASK; // reset PORTD pin 0 to disable mode
 	PORTC -> PCR[PTC2_PIN] &= ~PORT_PCR_MUX_MASK; // reset PORTD pin 1 to disable mode
