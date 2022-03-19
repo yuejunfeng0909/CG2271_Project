@@ -11,7 +11,7 @@
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\main.o: brain.h
 .\objects\main.o: C:\Users\yuejunfeng\AppData\Local\Arm\Packs\Keil\Kinetis_KLxx_DFP\1.15.0\Device\Include\MKL25Z4.h
-.\objects\main.o: UART_control.h
-.\objects\main.o: C:\Users\yuejunfeng\AppData\Local\Arm\Packs\Keil\Kinetis_KLxx_DFP\1.15.0\Device\Include\MKL25Z4.h
 .\objects\main.o: led_control.h
+.\objects\main.o: C:\Users\yuejunfeng\AppData\Local\Arm\Packs\Keil\Kinetis_KLxx_DFP\1.15.0\Device\Include\MKL25Z4.h
+.\objects\main.o: UART_control.h
 .\objects\main.o: C:\Users\yuejunfeng\AppData\Local\Arm\Packs\Keil\Kinetis_KLxx_DFP\1.15.0\Device\Include\MKL25Z4.h

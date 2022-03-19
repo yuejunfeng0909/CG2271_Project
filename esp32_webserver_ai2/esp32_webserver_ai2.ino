@@ -72,20 +72,21 @@ void loop() {
   /////////////////////////////////////////////////////
   // Read the information sent by the client.
   String req = client.readStringUntil('\r');
+  Serial.println(req);
 
-  // Make the client's request.
-  if(req.indexOf("status") != -1)
+  if(req.indexOf("cmd") == -1)
   {
-    response = "WiFi Connected: " + ip_address;
+    client.stop();
+    return;
   }
-
-  String msg = req.substring(5, 7);
-  uint8_t msg1 = msg.charAt(0) - '0';
-  uint8_t msg2 = msg.charAt(1) - '0';
+  
+  int cmdIndex = req.indexOf("cmd")+3;
+  uint8_t msg1 = req.charAt(cmdIndex) - '0';
+  uint8_t msg2 = req.charAt(cmdIndex+1) - '0';
   uint8_t result = (msg1 << 4) + msg2;
   Serial.println(result);
 
-  response = "OK";
+  response = result;
   Serial2.write(result);
   
   client.println("HTTP/1.1 200 OK");

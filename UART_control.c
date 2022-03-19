@@ -1,6 +1,8 @@
 #include "UART_control.h"
+#include "led_control.h"
 
 uint8_t remote_command = 0;
+extern osSemaphoreId_t LED_sem;
 
 /* Init UART2 */
 void initUART2(void)
@@ -42,7 +44,11 @@ void initUART2(void)
 
 /* UART2 Read data to UART2_RX_data */
 void UART2_IRQHandler (void) {
+	
 	if (UART2->S1 & UART_S1_RDRF_MASK) {
 		remote_command = UART2->D;
 	}
+	
+	osSemaphoreRelease(LED_sem);
+	
 }

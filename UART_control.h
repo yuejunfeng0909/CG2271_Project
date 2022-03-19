@@ -2,6 +2,7 @@
 #define FOO_H_
 
 #include "MKL25Z4.h"                    // Device header
+#include "cmsis_os2.h"
 
 #define BAUD_RATE 9600
 #define UART_TX_PORTE22 22

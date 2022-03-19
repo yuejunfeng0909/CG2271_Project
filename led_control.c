@@ -1,4 +1,7 @@
 #include "led_control.h"
+#include "cmsis_os2.h"
+
+osSemaphoreId_t LED_sem;
 
 void led_r(uint8_t val)
 {
@@ -71,4 +74,28 @@ void InitLED(void)
 	
 	// Initialize all led to off
 	led_control(BLACK);
+	
+	// Initialize LED semaphore
+	LED_sem = osSemaphoreNew(1, 0, NULL);
+}
+
+void led_control_thread(void *arguments) {
+	for (;;) {
+		osSemaphoreAcquire(LED_sem, osWaitForever);
+	
+		switch ((remote_command >> 1) & 0b11) {
+			case 0:
+				// red
+				led_r(remote_command & 0b1);
+				break;
+			case 1:
+				// green
+				led_g(remote_command & 0b1);
+				break;
+			case 2:
+				// blue
+				led_b(remote_command & 0b1);
+				break;
+		}
+	}
 }

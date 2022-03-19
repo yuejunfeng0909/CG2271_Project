@@ -7,6 +7,8 @@
 #define BLUE_LED		1
 #define MASK(x)			(1 << (x))
 
+extern uint8_t remote_command;
+
 enum color_t
 {
 	RED, GREEN, BLUE, BLACK
@@ -21,5 +23,7 @@ void led_b(uint8_t val);
 void led_control(enum color_t color);
 
 void InitLED(void);
+
+void led_control_thread(void *arguments);
 
 #endif
