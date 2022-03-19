@@ -28,7 +28,6 @@ int main (void) {
 	initLED();
 	initUART2();
 	initMotor();
-	setMotion();
   // ...
  
   osKernelInitialize();                 // Initialize CMSIS-RTOS
