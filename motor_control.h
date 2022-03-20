@@ -21,8 +21,15 @@
 #define TPM0_CLK_FREQ 48000000
 #define TPM0_PRESCALER 7
 
+#define TURN_PRE_SPEEDUP_MS 100
+
+enum directions_t
+{
+	FORWARD, BACKWARD, SPIN_LEFT, SPIN_RIGHT, FORWARD_LEFT, FORWARD_RIGHT, BACKWARD_LEFT, BACKWARD_RIGHT, STOP
+};
+
 void initMotor(void);
-void setMotorSpeed(int speed);
-void setMotion(void);
+void setMotion(enum directions_t Direction);
+void motor_thread(void *arguments);
 
 #endif

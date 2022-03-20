@@ -1,6 +1,8 @@
 #include "led_control.h"
 #include "cmsis_os2.h"
 
+extern uint8_t remote_command;
+
 osSemaphoreId_t LED_sem;
 
 void led_r(uint8_t val)

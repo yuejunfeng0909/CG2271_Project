@@ -7,8 +7,6 @@
 #define BLUE_LED		1
 #define MASK(x)			(1 << (x))
 
-extern uint8_t remote_command;
-
 enum color_t
 {
 	RED, GREEN, BLUE, BLACK
