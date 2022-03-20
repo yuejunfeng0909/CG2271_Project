@@ -1,2 +1,24 @@
+#Keil Generated output files in the sub-directories .\Listings and .\Objects
+*.lst
+*.o
+*.d
+*.crf
+*.lnp
+*.axf
+*.htm
+*.build_log.htm
+*.dep
+*.iex
+*.i
+*.bin
+*.hex
 
-CG2271_Project.uvguix.yuejunfeng
+#Keil Project screen layout file
+*.uvguix.*
+*.uvgui.*
+
+#JLINK file
+JLinkLog.txt
+Objects/
+
+Listings/
