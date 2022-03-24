@@ -1,51 +1,47 @@
 #include "MKL25Z4.h"                    // Device header
+#include "cmsis_os2.h"
+#include "audio_control.h"
 
-#define PTB0_Pin 0
 
-#define TPM1_CLK_FREQ 48000000
-#define TPM1_PRESCALER 7
-
-uint8_t TPM1_frequency = 50;
-uint8_t TPM1_dutyCycle = 50;
-
-void initPWM(void)
+void initAudio(void)
 {
-	// enable clock for PORT B module
+	// Enable clock gating for PORTB
 	SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK;
 	
-	PORTB -> PCR[PTB0_Pin] &= ~PORT_PCR_MUX_MASK; // reset PORTB pin 0 to disable mode
-	PORTB -> PCR[PTB0_Pin] |= PORT_PCR_MUX(3); // Set signal mux to TPM1_CH0
+	// Configure Mode 3 for the PWM Pin configuration
+	PORTB->PCR[PTB0_Pin] &= ~PORT_PCR_MUX_MASK;  // TPM1_CH0
+	PORTB->PCR[PTB0_Pin] |= PORT_PCR_MUX(3);
 	
-	// enable clock for TPM1 module
-	SIM_SCGC6 |= SIM_SCGC6_TPM1_MASK;
+	// Enable clock gating for TIMER1
+	SIM->SCGC6 |= SIM_SCGC6_TPM1_MASK;
 	
-	SIM_SOPT2 &= ~SIM_SOPT2_TPMSRC_MASK; // clear TPM0 clock source
-	SIM_SOPT2 |= SIM_SOPT2_TPMSRC(1); // set TPM0 clock source to MCGFLLCLK clock or MCGPLLCLK/2, but prescaler should be 1 thus should be the former
+	// Select clock for TPM Module
+	SIM->SOPT2 &= ~SIM_SOPT2_TPMSRC_MASK;
+	SIM->SOPT2 |= SIM_SOPT2_TPMSRC(1);  // MCGFLLCLK or MCGPLLCLK/2
 	
-//	TPM1_MOD = 7500; 
-//	TPM1_C0V = 3750; // set duty cycle to 50%
-	TPM1_MOD = (TPM1_CLK_FREQ/(TPM1_frequency * (1 << TPM1_PRESCALER))); // set TOP value for TPM0; 48000000/128/7500 = 50Hz 
-	TPM1_C0V = TPM1_MOD * TPM1_dutyCycle / 100; // set duty cycle to 50%
+	//TPM1->MOD = 375000 / 8000;
+	//TPM1_C0V = 375000 / 8000;  // Set Duty cycle 100%
 	
-	TPM1 -> SC &= ~((TPM_SC_CMOD_MASK) | (TPM_SC_PS_MASK)); // reset counter to disable and prescaler to 1
-	// LPTPM counter increments on every LPTPM counter clock, TPM1 prescaler to 2^7 = 128
-	TPM1 -> SC |= (TPM_SC_CMOD(1) | TPM_SC_PS(1 << TPM1_PRESCALER));
-	TPM1 -> SC &= ~(TPM_SC_CPWMS_MASK); // LPTPM counter operates in up counting mode.
+	TPM1->SC &= ~((TPM_SC_CMOD_MASK) | (TPM_SC_PS_MASK));
+	TPM1->SC |= (TPM_SC_CMOD(1) | TPM_SC_PS(7));
+	TPM1->SC &= ~(TPM_SC_CPWMS_MASK);
 	
-	TPM1_C0SC &= ~(TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK | TPM_CnSC_MSA_MASK | TPM_CnSC_MSB_MASK); // diable both channels
-	TPM1_C0SC |= (TPM_CnSC_ELSB(1) | TPM_CnSC_MSB(1)); // set mode to "Toggle Output on match"
+	
+	TPM1_C0SC &= ~((TPM_CnSC_ELSB_MASK) | (TPM_CnSC_ELSA_MASK) | (TPM_CnSC_MSB_MASK) | (TPM_CnSC_MSA_MASK));
+	TPM1_C0SC |= (TPM_CnSC_ELSB(1) | TPM_CnSC_MSB(1));
 }
 
-void setFrequency(int frequency){
-	TPM1_frequency = frequency;
-	
-	TPM1_MOD = (TPM1_CLK_FREQ/(TPM1_frequency * (1 << TPM1_PRESCALER))); // update TOP value for TPM0
-	TPM1_C0V = TPM1_MOD * TPM1_dutyCycle / 100; // set duty cycle
+void playSong(void) {
+	int songFreq[7] = {1000, 2000, 3000, 4000, 5000, 6000, 7000};
+	for (int i = 0; i < 7; i++) {
+		TPM1->MOD = 375000 / songFreq[i];
+	  TPM1_C0V = 375000 / songFreq[i];  // Set Duty cycle
+		osDelay(1000);
+	}
 }
 
-void setDutyCycle(int dutyCycle){
-	TPM1_dutyCycle = dutyCycle;
-	
-	TPM1_MOD = (TPM1_CLK_FREQ/(TPM1_frequency * (1 << TPM1_PRESCALER))); // update TOP value for TPM0
-	TPM1_C0V = TPM1_MOD * TPM1_dutyCycle / 100; // set duty cycle
+void audio_control_thread(void *arguments) {
+	for(;;) {
+		playSong();
+	}
 }
