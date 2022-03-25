@@ -19,6 +19,8 @@
 //		nof--;
 //	}
 //}
+
+extern osThreadId_t led_control_ID;
  
 int main (void) {
  
@@ -32,7 +34,7 @@ int main (void) {
  
   osKernelInitialize();                 // Initialize CMSIS-RTOS
   osThreadNew(brain_thread, NULL, NULL);
-	osThreadNew(led_control_thread, NULL, NULL);
+	led_control_ID = osThreadNew(led_control_thread, NULL, NULL);
 	osThreadNew(motor_thread, NULL, NULL);
   osKernelStart();                      // Start thread execution
   for (;;) {}

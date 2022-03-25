@@ -3,7 +3,9 @@
 
 extern uint8_t remote_command;
 
-osSemaphoreId_t LED_sem;
+osThreadId_t led_control_ID;
+
+//osSemaphoreId_t LED_sem;
 
 void led_r(uint8_t val)
 {
@@ -78,12 +80,13 @@ void initLED(void)
 	led_control(BLACK);
 	
 	// Initialize LED semaphore
-	LED_sem = osSemaphoreNew(1, 0, NULL);
+	//LED_sem = osSemaphoreNew(1, 0, NULL);
 }
 
 void led_control_thread(void *arguments) {
 	for (;;) {
-		osSemaphoreAcquire(LED_sem, osWaitForever);
+		//osSemaphoreAcquire(LED_sem, osWaitForever);
+		osThreadFlagsWait(0x00000001, osFlagsWaitAny, osWaitForever);
 	
 		switch ((remote_command >> 1) & 0b11) {
 			case 0:
