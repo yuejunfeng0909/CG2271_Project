@@ -34,15 +34,15 @@ void initAudio(void)
 
 void playSong(void) {
 
-	int len = sizeof(tone2) / sizeof(tone2[0]);
+	int len = sizeof(tone1) / sizeof(tone1[0]);
 	for (int i = 0; i < len; i++) {
-		if (tone2[i][0] == 0) {
+		if (tone1[i][0] == 0) {
 			TPM1_C0V = 0;  // Set Duty cycle
 		} else {
-			TPM1->MOD = 375000 / tone2[i][0];
+			TPM1->MOD = 375000 / tone1[i][0];
 			TPM1_C0V = 375000 / 24000;  // Set Duty cycle
 		}
-		osDelay(tone2[i][1]);
+		osDelay(tone1[i][1]);
 	}
 }
 

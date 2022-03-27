@@ -27,10 +27,10 @@ int main (void) {
  
   // System Initialization
   SystemCoreClockUpdate();
-//	initBrain();
-//	initLED();
-//	initUART2();
-//	initMotor();
+	initBrain();
+	initLED();
+	initUART2();
+	initMotor();
 	initAudio();
   // ...
  

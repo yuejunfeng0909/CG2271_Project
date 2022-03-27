@@ -4,11 +4,9 @@ extern osThreadId_t led_control_ID;
 extern osSemaphoreId_t motor_sem;
 osSemaphoreId_t brain_sem;
 
-//extern osSemaphoreId_t LED_sem;
-//extern osSemaphoreId_t motor_sem;
-//extern osSemaphoreId_t speed_sem;
-//extern osSemaphoreId_t audio_sem;
-//extern osSemaphoreId_t sd_sem;
+void initBrain(void) {
+	brain_sem = osSemaphoreNew(1, 0, NULL);
+}
 
 void brain_thread(void *arguments) {
 	// decode command
@@ -27,10 +25,6 @@ void brain_thread(void *arguments) {
 		}
 	}
 }
-
-//void Init_brain(void) {
-//	brain_sem = osSemaphoreNew(1, 0, NULL);
-//}
 
 //void brain_thread(void *arguments) {
 //	// decode command
