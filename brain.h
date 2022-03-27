@@ -11,8 +11,6 @@
 #define BUZZER_COMMAND 0b100u
 #define SELF_DRIVING_COMMAND 0b101u
 
-extern osSemaphoreId_t LED_sem;
-
 void initBrain(void);
 
 void brain_thread(void *arguments);
