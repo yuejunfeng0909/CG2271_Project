@@ -11,7 +11,6 @@
 #define UART2_INT_PRIO 128
 
 extern uint8_t remote_command;
-extern osSemaphoreId_t brain_sem;
 
 /* Init UART2 */
 void initUART2(void);

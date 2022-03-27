@@ -158,6 +158,16 @@
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
+          <ItemText>remote_command,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>TPM_MOD_REG(((TPM_Type *)(0x40038000u)))</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
           <ItemText>remote_command</ItemText>
         </Ww>
       </WatchWindow1>

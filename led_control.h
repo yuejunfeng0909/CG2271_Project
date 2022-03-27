@@ -2,12 +2,11 @@
 #define LED_CONTROL_H_
 
 #include "MKL25Z4.h"                    // Device header
+#include "cmsis_os2.h"
 #define RED_LED			18
 #define GREEN_LED		19
 #define BLUE_LED		1
 #define MASK(x)			(1 << (x))
-
-extern uint8_t remote_command;
 
 enum color_t
 {
