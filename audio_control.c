@@ -1,6 +1,7 @@
 #include "MKL25Z4.h"                    // Device header
 #include "cmsis_os2.h"
 #include "audio_control.h"
+#include "tone.h"
 
 
 void initAudio(void)
@@ -19,8 +20,8 @@ void initAudio(void)
 	SIM->SOPT2 &= ~SIM_SOPT2_TPMSRC_MASK;
 	SIM->SOPT2 |= SIM_SOPT2_TPMSRC(1);  // MCGFLLCLK or MCGPLLCLK/2
 	
-	//TPM1->MOD = 375000 / 8000;
-	//TPM1_C0V = 375000 / 8000;  // Set Duty cycle 100%
+	//TPM1->MOD = 7500; 50Hz
+	TPM1_C0V = 375000 / 24000;  // Set Duty cycle 33%
 	
 	TPM1->SC &= ~((TPM_SC_CMOD_MASK) | (TPM_SC_PS_MASK));
 	TPM1->SC |= (TPM_SC_CMOD(1) | TPM_SC_PS(7));
@@ -32,11 +33,16 @@ void initAudio(void)
 }
 
 void playSong(void) {
-	int songFreq[7] = {1000, 2000, 3000, 4000, 5000, 6000, 7000};
-	for (int i = 0; i < 7; i++) {
-		TPM1->MOD = 375000 / songFreq[i];
-	  TPM1_C0V = 375000 / songFreq[i];  // Set Duty cycle
-		osDelay(1000);
+
+	int len = sizeof(tone2) / sizeof(tone2[0]);
+	for (int i = 0; i < len; i++) {
+		if (tone2[i][0] == 0) {
+			TPM1_C0V = 0;  // Set Duty cycle
+		} else {
+			TPM1->MOD = 375000 / tone2[i][0];
+			TPM1_C0V = 375000 / 24000;  // Set Duty cycle
+		}
+		osDelay(tone2[i][1]);
 	}
 }
 

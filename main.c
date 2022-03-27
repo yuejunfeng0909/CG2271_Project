@@ -25,16 +25,16 @@ int main (void) {
  
   // System Initialization
   SystemCoreClockUpdate();
-	initBrain();
-	initLED();
-	initUART2();
-	initMotor();
+//	initBrain();
+//	initLED();
+//	initUART2();
+//	initMotor();
 	initAudio();
   // ...
  
   osKernelInitialize();                 // Initialize CMSIS-RTOS
-  osThreadNew(brain_thread, NULL, NULL);
-	osThreadNew(led_control_thread, NULL, NULL);
+//  osThreadNew(brain_thread, NULL, NULL);
+//	osThreadNew(led_control_thread, NULL, NULL);
 	osThreadNew(audio_control_thread, NULL, NULL);
   osKernelStart();                      // Start thread execution
   for (;;) {}
