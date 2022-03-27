@@ -1,6 +1,8 @@
 #include "led_strip_control.h" 
 #include "cmsis_os2.h"
 
+extern uint8_t remote_command;
+
 /* Delay Function */
 static void delay(volatile uint32_t nof) {
   while(nof!=0) {
@@ -40,84 +42,82 @@ void initFrontStrip(void)
 }
 
 void front_strip_running(void) {
-  for (;;) {
-    // Set input 1 enable to L and input 2 enable to H
-    PTD->PDOR &= ~(MASK(FRONT_LED_ENABLE1));
-    PTD->PDOR |= MASK(FRONT_LED_ENABLE2);
-    // Input 1: [B] L [A] L
-    PTD->PDOR &= ~((MASK(FRONT_LED_INPUT1A)) | (MASK(FRONT_LED_INPUT1B)));
-    delay(RUNNING_GREEN_DELAY);
-    // Input 1: [B] L [A] H
-    PTD->PDOR &= ~(MASK(FRONT_LED_INPUT1B));
-    PTD->PDOR |= MASK(FRONT_LED_INPUT1A);
-    delay(RUNNING_GREEN_DELAY);
-    // Input 1: [B] H [A] L
-    PTD->PDOR &= ~MASK(FRONT_LED_INPUT1A);
-    PTD->PDOR |= MASK(FRONT_LED_INPUT1B);
-    delay(RUNNING_GREEN_DELAY);
-    // Input 1: [B] H [A] H
-    PTD->PDOR |= MASK(FRONT_LED_INPUT1A);
-    delay(RUNNING_GREEN_DELAY);
-    // Set input 1 enable to H and input 2 enable to L
-    PTD->PDOR |= MASK(FRONT_LED_ENABLE1);
-    PTD->PDOR &= ~(MASK(FRONT_LED_ENABLE2));
-    // Input 2: [B] L [A] L
-    PTD->PDOR &= ~((MASK(FRONT_LED_INPUT2A)) | (MASK(FRONT_LED_INPUT2B)));
-    delay(RUNNING_GREEN_DELAY);
-    // Input 2: [B] L [A] H
-    PTD->PDOR |= MASK(FRONT_LED_INPUT2A);
-    delay(RUNNING_GREEN_DELAY);
-    // Input 2: [B] H [A] L
-    PTD->PDOR &= ~MASK(FRONT_LED_INPUT2A);
-    PTD->PDOR |= MASK(FRONT_LED_INPUT2B);
-    delay(RUNNING_GREEN_DELAY);
-    // Input 2: [B] H [A] H
-    PTD->PDOR |= MASK(FRONT_LED_INPUT2A);
-    delay(RUNNING_GREEN_DELAY);
-  }
+	// Set input 1 enable to L and input 2 enable to H
+	PTD->PDOR &= ~(MASK(FRONT_LED_ENABLE1));
+	PTD->PDOR |= MASK(FRONT_LED_ENABLE2);
+	// Input 1: [B] L [A] L
+	PTD->PDOR &= ~((MASK(FRONT_LED_INPUT1A)) | (MASK(FRONT_LED_INPUT1B)));
+	delay(RUNNING_GREEN_DELAY);
+	// Input 1: [B] L [A] H
+	PTD->PDOR &= ~(MASK(FRONT_LED_INPUT1B));
+	PTD->PDOR |= MASK(FRONT_LED_INPUT1A);
+	delay(RUNNING_GREEN_DELAY);
+	// Input 1: [B] H [A] L
+	PTD->PDOR &= ~MASK(FRONT_LED_INPUT1A);
+	PTD->PDOR |= MASK(FRONT_LED_INPUT1B);
+	delay(RUNNING_GREEN_DELAY);
+	// Input 1: [B] H [A] H
+	PTD->PDOR |= MASK(FRONT_LED_INPUT1A);
+	delay(RUNNING_GREEN_DELAY);
+	// Set input 1 enable to H and input 2 enable to L
+	PTD->PDOR |= MASK(FRONT_LED_ENABLE1);
+	PTD->PDOR &= ~(MASK(FRONT_LED_ENABLE2));
+	// Input 2: [B] L [A] L
+	PTD->PDOR &= ~((MASK(FRONT_LED_INPUT2A)) | (MASK(FRONT_LED_INPUT2B)));
+	delay(RUNNING_GREEN_DELAY);
+	// Input 2: [B] L [A] H
+	PTD->PDOR |= MASK(FRONT_LED_INPUT2A);
+	delay(RUNNING_GREEN_DELAY);
+	// Input 2: [B] H [A] L
+	PTD->PDOR &= ~MASK(FRONT_LED_INPUT2A);
+	PTD->PDOR |= MASK(FRONT_LED_INPUT2B);
+	delay(RUNNING_GREEN_DELAY);
+	// Input 2: [B] H [A] H
+	PTD->PDOR |= MASK(FRONT_LED_INPUT2A);
+	delay(RUNNING_GREEN_DELAY);
 }
 
 void front_strip_lighted_up(void) {
-     // Set input 1 enable to L and input 2 enable to H
-    PTD->PDOR &= ~(MASK(FRONT_LED_ENABLE1));
-    PTD->PDOR |= MASK(FRONT_LED_ENABLE2);
-    // Input 1: [B] L [A] L
-    PTD->PDOR &= ~((MASK(FRONT_LED_INPUT1A)) | (MASK(FRONT_LED_INPUT1B)));
-    delay(STAT_GREEN_DELAY);
-    // Input 1: [B] L [A] H
-    PTD->PDOR &= ~(MASK(FRONT_LED_INPUT1B));
-    PTD->PDOR |= MASK(FRONT_LED_INPUT1A);
-    delay(STAT_GREEN_DELAY);
-    // Input 1: [B] H [A] L
-    PTD->PDOR &= ~MASK(FRONT_LED_INPUT1A);
-    PTD->PDOR |= MASK(FRONT_LED_INPUT1B);
-    delay(STAT_GREEN_DELAY);
-    // Input 1: [B] H [A] H
-    PTD->PDOR |= MASK(FRONT_LED_INPUT1A);
-    delay(STAT_GREEN_DELAY);
-    // Set input 1 enable to H and input 2 enable to L
-    PTD->PDOR |= MASK(FRONT_LED_ENABLE1);
-    PTD->PDOR &= ~(MASK(FRONT_LED_ENABLE2));
-    // Input 2: [B] L [A] L
-    PTD->PDOR &= ~((MASK(FRONT_LED_INPUT2A)) | (MASK(FRONT_LED_INPUT2B)));
-    delay(STAT_GREEN_DELAY);
-    // Input 2: [B] L [A] H
-    PTD->PDOR |= MASK(FRONT_LED_INPUT2A);
-    delay(STAT_GREEN_DELAY);
-    // Input 2: [B] H [A] L
-    PTD->PDOR &= ~MASK(FRONT_LED_INPUT2A);
-    PTD->PDOR |= MASK(FRONT_LED_INPUT2B);
-    delay(STAT_GREEN_DELAY);
-    // Input 2: [B] H [A] H
-    PTD->PDOR |= MASK(FRONT_LED_INPUT2A);
-    delay(STAT_GREEN_DELAY);
+	 // Set input 1 enable to L and input 2 enable to H
+	PTD->PDOR &= ~(MASK(FRONT_LED_ENABLE1));
+	PTD->PDOR |= MASK(FRONT_LED_ENABLE2);
+	// Input 1: [B] L [A] L
+	PTD->PDOR &= ~((MASK(FRONT_LED_INPUT1A)) | (MASK(FRONT_LED_INPUT1B)));
+	delay(STAT_GREEN_DELAY);
+	// Input 1: [B] L [A] H
+	PTD->PDOR &= ~(MASK(FRONT_LED_INPUT1B));
+	PTD->PDOR |= MASK(FRONT_LED_INPUT1A);
+	delay(STAT_GREEN_DELAY);
+	// Input 1: [B] H [A] L
+	PTD->PDOR &= ~MASK(FRONT_LED_INPUT1A);
+	PTD->PDOR |= MASK(FRONT_LED_INPUT1B);
+	delay(STAT_GREEN_DELAY);
+	// Input 1: [B] H [A] H
+	PTD->PDOR |= MASK(FRONT_LED_INPUT1A);
+	delay(STAT_GREEN_DELAY);
+	// Set input 1 enable to H and input 2 enable to L
+	PTD->PDOR |= MASK(FRONT_LED_ENABLE1);
+	PTD->PDOR &= ~(MASK(FRONT_LED_ENABLE2));
+	// Input 2: [B] L [A] L
+	PTD->PDOR &= ~((MASK(FRONT_LED_INPUT2A)) | (MASK(FRONT_LED_INPUT2B)));
+	delay(STAT_GREEN_DELAY);
+	// Input 2: [B] L [A] H
+	PTD->PDOR |= MASK(FRONT_LED_INPUT2A);
+	delay(STAT_GREEN_DELAY);
+	// Input 2: [B] H [A] L
+	PTD->PDOR &= ~MASK(FRONT_LED_INPUT2A);
+	PTD->PDOR |= MASK(FRONT_LED_INPUT2B);
+	delay(STAT_GREEN_DELAY);
+	// Input 2: [B] H [A] H
+	PTD->PDOR |= MASK(FRONT_LED_INPUT2A);
+	delay(STAT_GREEN_DELAY);
 }
 
-void front_strip_control_thread(void *arguments) {
-  for (;;) {
-    front_strip_lighted_up();
-  }
-}
+//void front_strip_control_thread(void *arguments) {
+  //for (;;) {
+    //front_strip_lighted_up();
+  //}
+//}
 
 void initRearStrip(void) 
 {
@@ -146,8 +146,52 @@ void rear_strip_blinks_fast(void) {
   osDelay(FAST_RED_DELAY);
 }
 
-void rear_strip_control_thread(void *arguments) {
-  for(;;) {
-    rear_strip_blinks_fast();
-  }
+//void rear_strip_control_thread(void *arguments) {
+  //for(;;) {
+    //rear_strip_blinks_fast();
+  //}
+//}
+
+void front_led_strip_thread(void *arguments)
+{
+	for(;;)
+	{
+		switch(remote_command & 0b00001111)
+		{
+			case 0b1100:
+			case 0b1000:
+			case 0b0011:
+			case 0b0010:
+			case 0b1111:
+			case 0b1110:
+			case 0b1011:
+			case 0b1010:
+				front_strip_running();
+				break;
+			default:
+				front_strip_lighted_up();
+		}
+	}
+}
+
+void rear_led_strip_thread(void *arguments)
+{
+	for(;;)
+	{
+		switch(remote_command & 0b00001111)
+		{
+			case 0b1100:
+			case 0b1000:
+			case 0b0011:
+			case 0b0010:
+			case 0b1111:
+			case 0b1110:
+			case 0b1011:
+			case 0b1010:
+				rear_strip_blinks_slow();
+				break;
+			default:
+				rear_strip_blinks_fast();
+		}
+	}
 }

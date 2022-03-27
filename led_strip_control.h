@@ -16,6 +16,8 @@
 #define FAST_RED_DELAY       250
 
 void initFrontStrip(void);
-void front_strip_control_thread(void *arguments);
+//void front_strip_control_thread(void *arguments);
 void initRearStrip(void);
-void rear_strip_control_thread(void *arguments);
+//void rear_strip_control_thread(void *arguments);
+void front_led_strip_thread(void *arguments);
+void rear_led_strip_thread(void *arguments);
