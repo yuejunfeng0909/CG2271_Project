@@ -10,6 +10,7 @@
 #include "led_control.h"
 #include "motor_control.h"
 #include "audio_control.h"
+#include "led_strip_control.h"
  
 /*----------------------------------------------------------------------------
  * Application main thread
@@ -29,6 +30,8 @@ int main (void) {
   SystemCoreClockUpdate();
 	initBrain();
 	initLED();
+	initFrontStrip();
+	initRearStrip();
 	initUART2();
 	initMotor();
 	initAudio();
@@ -39,6 +42,8 @@ int main (void) {
 	led_control_ID = osThreadNew(led_control_thread, NULL, NULL);
 	osThreadNew(motor_thread, NULL, NULL);
 	osThreadNew(audio_control_thread, NULL, NULL);
+	osThreadNew(front_strip_control_thread, NULL, NULL);
+	osThreadNew(rear_strip_control_thread, NULL, NULL);
   osKernelStart();                      // Start thread execution
   for (;;) {}
 }
