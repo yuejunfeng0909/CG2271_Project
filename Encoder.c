@@ -13,6 +13,8 @@ volatile int RIGHT_COUNTER = 0;
 volatile double tmp = 0;
 volatile double tmp_d = 0;
 
+int isMoving = 0;
+
 void initEncoder(void)
 {
 	// Enable Clock to PORTB and PORTD
@@ -49,30 +51,35 @@ void setMotion_and_Speed(enum directions_t Direction, uint8_t speed)
 	switch(Direction)
 	{
 		case FORWARD:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, speed);
 			setMotorDutyCycle(LEFT_B2, 0);
 			setMotorDutyCycle(RIGHT_B1, speed);
 			setMotorDutyCycle(RIGHT_B2, 0);
 			break;
 		case BACKWARD:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, 0);
 			setMotorDutyCycle(LEFT_B2, speed);
 			setMotorDutyCycle(RIGHT_B1, 0);
 			setMotorDutyCycle(RIGHT_B2, speed);
 			break;
 		case SPIN_LEFT:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, 0);
 			setMotorDutyCycle(LEFT_B2, speed);
 			setMotorDutyCycle(RIGHT_B1, speed);
 			setMotorDutyCycle(RIGHT_B2, 0);
 			break;
 		case SPIN_RIGHT:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, speed);
 			setMotorDutyCycle(LEFT_B2, 0);
 			setMotorDutyCycle(RIGHT_B1, 0);
 			setMotorDutyCycle(RIGHT_B2, speed);
 			break;
 		case FORWARD_LEFT:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, speed);
 			setMotorDutyCycle(LEFT_B2, 0);
 			setMotorDutyCycle(RIGHT_B1, speed);
@@ -81,6 +88,7 @@ void setMotion_and_Speed(enum directions_t Direction, uint8_t speed)
 			setMotorDutyCycle(LEFT_B1, 5);
 			break;
 		case FORWARD_RIGHT:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, speed);
 			setMotorDutyCycle(LEFT_B2, 0);
 			setMotorDutyCycle(RIGHT_B1, speed);
@@ -89,6 +97,7 @@ void setMotion_and_Speed(enum directions_t Direction, uint8_t speed)
 			setMotorDutyCycle(RIGHT_B1, 5);
 			break;
 		case BACKWARD_LEFT:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, 0);
 			setMotorDutyCycle(LEFT_B2, speed);
 			setMotorDutyCycle(RIGHT_B1, 0);
@@ -97,6 +106,7 @@ void setMotion_and_Speed(enum directions_t Direction, uint8_t speed)
 			setMotorDutyCycle(LEFT_B2, 5);
 			break;
 		case BACKWARD_RIGHT:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, 0);
 			setMotorDutyCycle(LEFT_B2, speed);
 			setMotorDutyCycle(RIGHT_B1, 0);
@@ -105,6 +115,7 @@ void setMotion_and_Speed(enum directions_t Direction, uint8_t speed)
 			setMotorDutyCycle(RIGHT_B2, 5);
 			break;
 		case STOP:
+			isMoving = 0;
 			setMotorDutyCycle(LEFT_B1, 0);
 			setMotorDutyCycle(LEFT_B2, 0);
 			setMotorDutyCycle(RIGHT_B1, 0);

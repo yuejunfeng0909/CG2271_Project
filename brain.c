@@ -5,6 +5,8 @@ extern osThreadId_t led_control_ID;
 extern osSemaphoreId_t motor_sem;
 osSemaphoreId_t brain_sem;
 
+int isSelfDriving = 0;
+
 void initBrain(void) {
 	brain_sem = osSemaphoreNew(1, 0, NULL);
 }
@@ -22,6 +24,7 @@ void brain_thread(void *arguments) {
 				osSemaphoreRelease(motor_sem);
 				break;
 			case SELF_DRIVING_COMMAND:
+				isSelfDriving = 1;
 				osThreadNew(self_driving, NULL, NULL);
 			default:
 				break;

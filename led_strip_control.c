@@ -1,7 +1,12 @@
 #include "led_strip_control.h" 
 #include "cmsis_os2.h"
+#include "Encoder.h"
+#include "brain.h"
 
 extern uint8_t remote_command;
+extern int isMoving;
+extern int isSelfDriving;
+int rearDelayTime = 0;
 
 /* Delay Function */
 static void delay(volatile uint32_t nof) {
@@ -132,44 +137,14 @@ void initRearStrip(void)
   PTA->PDDR |= MASK(REAR_LED_POWER);
 }
 
-void rear_strip_blinks_slow(void) {
-  PTA->PDOR |= MASK(REAR_LED_POWER);
-  osDelay(SLOW_RED_DELAY);
-  PTA->PDOR &= ~(MASK(REAR_LED_POWER));
-  osDelay(SLOW_RED_DELAY);
-}
-
-void rear_strip_blinks_fast(void) {
-  PTA->PDOR |= MASK(REAR_LED_POWER);
-  osDelay(FAST_RED_DELAY);
-  PTA->PDOR &= ~(MASK(REAR_LED_POWER));
-  osDelay(FAST_RED_DELAY);
-}
-
-//void rear_strip_control_thread(void *arguments) {
-  //for(;;) {
-    //rear_strip_blinks_fast();
-  //}
-//}
-
 void front_led_strip_thread(void *arguments)
 {
 	for(;;)
 	{
-		switch(remote_command & 0b00001111)
-		{
-			case 0b1100:
-			case 0b1000:
-			case 0b0011:
-			case 0b0010:
-			case 0b1111:
-			case 0b1110:
-			case 0b1011:
-			case 0b1010:
-				front_strip_running();
-				break;
-			default:
-				front_strip_lighted_up();
+		if (isMoving) {
+			front_strip_running();
+		} else {
+			front_strip_lighted_up();
 		}
 	}
 }
@@ -178,20 +153,14 @@ void rear_led_strip_thread(void *arguments)
 {
 	for(;;)
 	{
-		switch(remote_command & 0b00001111)
-		{
-			case 0b1100:
-			case 0b1000:
-			case 0b0011:
-			case 0b0010:
-			case 0b1111:
-			case 0b1110:
-			case 0b1011:
-			case 0b1010:
-				rear_strip_blinks_slow();
-				break;
-			default:
-				rear_strip_blinks_fast();
+		if (isMoving) {
+			rearDelayTime = SLOW_RED_DELAY;
+		} else {
+			rearDelayTime = FAST_RED_DELAY;
 		}
+		PTA->PDOR |= MASK(REAR_LED_POWER);
+		osDelay(rearDelayTime);
+		PTA->PDOR &= ~(MASK(REAR_LED_POWER));
+		osDelay(rearDelayTime);
 	}
 }
