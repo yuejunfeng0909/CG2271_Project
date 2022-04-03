@@ -30,6 +30,7 @@ enum directions_t
 
 void initMotor(void);
 void setMotion(enum directions_t Direction);
+void setMotorDutyCycle(uint8_t motor, uint8_t speed);
 void motor_thread(void *arguments);
 
 #endif

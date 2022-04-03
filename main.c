@@ -1,7 +1,3 @@
-/*----------------------------------------------------------------------------
- * CMSIS-RTOS 'main' function template
- *---------------------------------------------------------------------------*/
- 
 #include "RTE_Components.h"
 #include  CMSIS_device_header
 #include "cmsis_os2.h"
@@ -11,16 +7,8 @@
 #include "motor_control.h"
 #include "audio_control.h"
 #include "led_strip_control.h"
- 
-/*----------------------------------------------------------------------------
- * Application main thread
- *---------------------------------------------------------------------------*/
-//static void delay(volatile uint32_t nof) {
-//	while(nof!=0) {
-//		__ASM("NOP");
-//		nof--;
-//	}
-//}
+#include "Encoder.h"
+#include "US_Sensor.h" 
 
 extern osThreadId_t led_control_ID;
  
@@ -35,6 +23,8 @@ int main (void) {
 	initUART2();
 	initMotor();
 	initAudio();
+	initUS_Sensor();
+	initEncoder();
   // ...
  
   osKernelInitialize();                 // Initialize CMSIS-RTOS

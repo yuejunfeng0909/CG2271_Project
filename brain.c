@@ -1,4 +1,5 @@
 #include "brain.h"
+#include "self_driving.h"
 
 extern osThreadId_t led_control_ID;
 extern osSemaphoreId_t motor_sem;
@@ -20,6 +21,8 @@ void brain_thread(void *arguments) {
 			case MOTOR_COMMAND:
 				osSemaphoreRelease(motor_sem);
 				break;
+			case SELF_DRIVING_COMMAND:
+				osThreadNew(self_driving, NULL, NULL);
 			default:
 				break;
 		}
