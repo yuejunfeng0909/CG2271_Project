@@ -11,7 +11,7 @@
 #define BUZZER_COMMAND 0b100u
 #define SELF_DRIVING_COMMAND 0b101u
 
-int isSelfDriving;
+extern int isSelfDriving;
 
 void initBrain(void);
 

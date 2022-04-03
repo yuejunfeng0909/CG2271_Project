@@ -3,7 +3,7 @@
 
 #include "motor_control.h" 
 
-int isMoving;
+extern int isMoving;
 
 void initEncoder(void);
 void setMotion_and_Speed(enum directions_t Direction, uint8_t speed);
