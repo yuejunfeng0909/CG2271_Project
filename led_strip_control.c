@@ -1,7 +1,11 @@
 #include "led_strip_control.h" 
 #include "cmsis_os2.h"
+#include "Encoder.h"
+#include "brain.h"
 
 extern uint8_t remote_command;
+extern int isMoving;
+extern int isSelfDriving;
 
 /* Delay Function */
 static void delay(volatile uint32_t nof) {
@@ -156,20 +160,28 @@ void front_led_strip_thread(void *arguments)
 {
 	for(;;)
 	{
-		switch(remote_command & 0b00001111)
-		{
-			case 0b1100:
-			case 0b1000:
-			case 0b0011:
-			case 0b0010:
-			case 0b1111:
-			case 0b1110:
-			case 0b1011:
-			case 0b1010:
+		if (isSelfDriving) {
+			if (isMoving) {
 				front_strip_running();
-				break;
-			default:
+			} else {
 				front_strip_lighted_up();
+			}
+		} else {
+			switch(remote_command & 0b00001111)
+			{
+				case 0b1100:
+				case 0b1000:
+				case 0b0011:
+				case 0b0010:
+				case 0b1111:
+				case 0b1110:
+				case 0b1011:
+				case 0b1010:
+					front_strip_running();
+					break;
+				default:
+					front_strip_lighted_up();
+			}
 		}
 	}
 }
@@ -178,20 +190,28 @@ void rear_led_strip_thread(void *arguments)
 {
 	for(;;)
 	{
-		switch(remote_command & 0b00001111)
-		{
-			case 0b1100:
-			case 0b1000:
-			case 0b0011:
-			case 0b0010:
-			case 0b1111:
-			case 0b1110:
-			case 0b1011:
-			case 0b1010:
+		if (isSelfDriving) {
+			if (isMoving) {
 				rear_strip_blinks_slow();
-				break;
-			default:
+			} else {
 				rear_strip_blinks_fast();
-		}
+			}
+		} else {
+			switch(remote_command & 0b00001111)
+			{
+				case 0b1100:
+				case 0b1000:
+				case 0b0011:
+				case 0b0010:
+				case 0b1111:
+				case 0b1110:
+				case 0b1011:
+				case 0b1010:
+					rear_strip_blinks_slow();
+					break;
+				default:
+					rear_strip_blinks_fast();
+			}
+		}	
 	}
 }
