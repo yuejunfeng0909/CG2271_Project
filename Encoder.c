@@ -156,7 +156,7 @@ void forward_distance(int distance)
 	LEFT_COUNTER=0;
 	RIGHT_COUNTER=0;
 	
-	setMotion_and_Speed(FORWARD,30);
+	setMotion_and_Speed(FORWARD,50);
 	while(LEFT_COUNTER <= count || RIGHT_COUNTER <= count){}
 	setMotion(STOP);
 	osDelay(700);

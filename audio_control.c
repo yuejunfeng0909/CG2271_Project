@@ -4,7 +4,7 @@
 #include "tone.h"
 #include "self_driving.h"
 
-extern int isAfterSelfDriving;
+extern int isFinished;
 int isTone1 = 0;
 
 void initAudio(void)
@@ -38,7 +38,7 @@ void initAudio(void)
 void playSong(void) {
 	int (*tone)[2];
 	int len = 0;
-	if (isAfterSelfDriving == 0) {
+	if (isFinished == 0) {
 		tone = tone1;
 		isTone1 = 1;
 		len = 26;
@@ -49,7 +49,7 @@ void playSong(void) {
 	}
 //	int len = sizeof(tone) / sizeof(tone[0]);
 	for (int i = 0; i < len; i++) {
-		if (isAfterSelfDriving == 1 && isTone1 == 1)
+		if (isFinished == 1 && isTone1 == 1)
 		{
 			break;
 		}
