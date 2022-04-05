@@ -45,10 +45,10 @@ void run_around_obstacle(void)
 	turn_degree(SPIN_LEFT,90);
 	forward_distance(80);
 	turn_degree(SPIN_LEFT,90);
-	forward_distance(80);
-	turn_degree(SPIN_LEFT,90);
-	forward_distance(40);
-	turn_degree(SPIN_RIGHT,90);
+//	forward_distance(80);
+//	turn_degree(SPIN_LEFT,90);
+//	forward_distance(40);
+//	turn_degree(SPIN_RIGHT,90);
 }
 
 void self_driving(void *argument)

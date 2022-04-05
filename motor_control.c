@@ -1,5 +1,6 @@
 #include "motor_control.h"
 #include "cmsis_os2.h"
+#include "led_strip_control.h"
 
 #define TPM0_CLK_FREQ 48000000
 #define TPM0_PRESCALER 7
@@ -10,6 +11,8 @@ uint8_t TPM0_frequency = 50;
 uint8_t TPM0_dutyCycle = 0;
 
 osSemaphoreId_t motor_sem;
+
+extern int isMoving;
 
 void initMotor(void)
 {
@@ -78,30 +81,35 @@ void setMotion(enum directions_t Direction)
 	switch(Direction)
 	{
 		case FORWARD:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, 100);
 			setMotorDutyCycle(LEFT_B2, 0);
 			setMotorDutyCycle(RIGHT_B1, 100);
 			setMotorDutyCycle(RIGHT_B2, 0);
 			break;
 		case BACKWARD:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, 0);
 			setMotorDutyCycle(LEFT_B2, 100);
 			setMotorDutyCycle(RIGHT_B1, 0);
 			setMotorDutyCycle(RIGHT_B2, 100);
 			break;
 		case SPIN_LEFT:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, 0);
 			setMotorDutyCycle(LEFT_B2, 100);
 			setMotorDutyCycle(RIGHT_B1, 100);
 			setMotorDutyCycle(RIGHT_B2, 0);
 			break;
 		case SPIN_RIGHT:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, 100);
 			setMotorDutyCycle(LEFT_B2, 0);
 			setMotorDutyCycle(RIGHT_B1, 0);
 			setMotorDutyCycle(RIGHT_B2, 100);
 			break;
 		case FORWARD_LEFT:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, 100);
 			setMotorDutyCycle(LEFT_B2, 0);
 			setMotorDutyCycle(RIGHT_B1, 100);
@@ -110,6 +118,7 @@ void setMotion(enum directions_t Direction)
 			setMotorDutyCycle(LEFT_B1, 5);
 			break;
 		case FORWARD_RIGHT:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, 100);
 			setMotorDutyCycle(LEFT_B2, 0);
 			setMotorDutyCycle(RIGHT_B1, 100);
@@ -118,6 +127,7 @@ void setMotion(enum directions_t Direction)
 			setMotorDutyCycle(RIGHT_B1, 5);
 			break;
 		case BACKWARD_LEFT:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, 0);
 			setMotorDutyCycle(LEFT_B2, 100);
 			setMotorDutyCycle(RIGHT_B1, 0);
@@ -126,6 +136,7 @@ void setMotion(enum directions_t Direction)
 			setMotorDutyCycle(LEFT_B2, 5);
 			break;
 		case BACKWARD_RIGHT:
+			isMoving = 1;
 			setMotorDutyCycle(LEFT_B1, 0);
 			setMotorDutyCycle(LEFT_B2, 100);
 			setMotorDutyCycle(RIGHT_B1, 0);
@@ -134,6 +145,7 @@ void setMotion(enum directions_t Direction)
 			setMotorDutyCycle(RIGHT_B2, 5);
 			break;
 		case STOP:
+			isMoving = 0;
 			setMotorDutyCycle(LEFT_B1, 0);
 			setMotorDutyCycle(LEFT_B2, 0);
 			setMotorDutyCycle(RIGHT_B1, 0);
