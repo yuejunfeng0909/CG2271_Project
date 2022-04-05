@@ -2,7 +2,10 @@
 #include "cmsis_os2.h"
 #include "audio_control.h"
 #include "tone.h"
+#include "self_driving.h"
 
+extern int isAfterSelfDriving;
+int isTone1 = 0;
 
 void initAudio(void)
 {
@@ -33,16 +36,30 @@ void initAudio(void)
 }
 
 void playSong(void) {
-
-	int len = sizeof(tone1) / sizeof(tone1[0]);
+	int (*tone)[2];
+	int len = 0;
+	if (isAfterSelfDriving == 0) {
+		tone = tone1;
+		isTone1 = 1;
+		len = 26;
+	} else {
+		tone = tone2;
+		isTone1 = 0;
+		len = 29;
+	}
+//	int len = sizeof(tone) / sizeof(tone[0]);
 	for (int i = 0; i < len; i++) {
-		if (tone1[i][0] == 0) {
+		if (isAfterSelfDriving == 1 && isTone1 == 1)
+		{
+			break;
+		}
+		if (tone[i][0] == 0) {
 			TPM1_C0V = 0;  // Set Duty cycle
 		} else {
-			TPM1->MOD = 375000 / tone1[i][0];
+			TPM1->MOD = 375000 / tone[i][0];
 			TPM1_C0V = 375000 / 24000;  // Set Duty cycle
 		}
-		osDelay(tone1[i][1]);
+		osDelay(tone[i][1]);
 	}
 }
 
