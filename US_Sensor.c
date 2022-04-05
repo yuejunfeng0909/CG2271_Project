@@ -70,6 +70,7 @@ void wait_until_echo_end(void)
 int measure_distance_cm(void)
 {
 	generate_10us_impulse();
+	reset_timer();
 	wait_until_echo();
 	reset_timer();
 	wait_until_echo_end();
