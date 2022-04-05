@@ -83,7 +83,7 @@ void loop() {
   int cmdIndex = req.indexOf("cmd")+3;
   uint8_t msg1 = req.charAt(cmdIndex) - '0';
   uint8_t msg2 = req.charAt(cmdIndex+1) - '0';
-  uint8_t result = (msg1 << 4) + msg2;
+  uint8_t result = (msg1 * 10) + msg2;
   Serial.println(result);
 
   response = result;

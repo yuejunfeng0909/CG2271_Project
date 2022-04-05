@@ -442,6 +442,51 @@
               <FileType>1</FileType>
               <FilePath>.\brain.c</FilePath>
             </File>
+            <File>
+              <FileName>led_strip_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\led_strip_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>led_strip_control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\led_strip_control.h</FilePath>
+            </File>
+            <File>
+              <FileName>Encoder.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Encoder.h</FilePath>
+            </File>
+            <File>
+              <FileName>US_Sensor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\US_Sensor.h</FilePath>
+            </File>
+            <File>
+              <FileName>self_driving.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\self_driving.h</FilePath>
+            </File>
+            <File>
+              <FileName>PIT.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\PIT.h</FilePath>
+            </File>
+            <File>
+              <FileName>self_driving.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\self_driving.c</FilePath>
+            </File>
+            <File>
+              <FileName>Encoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Encoder.c</FilePath>
+            </File>
+            <File>
+              <FileName>US_Sensor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\US_Sensor.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

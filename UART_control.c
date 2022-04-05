@@ -2,6 +2,7 @@
 #include "led_control.h"
 #include "brain.h"
 
+extern osSemaphoreId_t brain_sem;
 uint8_t remote_command = 0;
 
 /* Init UART2 */
