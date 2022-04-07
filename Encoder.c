@@ -7,6 +7,7 @@
 #define LEFT_IRT  1 // Port D Pin 1
 #define RIGHT_IRT 13 // Port a Pin 13
 #define MASK(x)  (1 << (x))
+#define EN_STOP_DELAY  400
 
 volatile int LEFT_COUNTER = 0;
 volatile int RIGHT_COUNTER = 0;
@@ -152,18 +153,24 @@ void PORTA_IRQHandler(void)
 
 void forward_distance(int distance)
 {
-	double count = distance/20.5*10;
+	setMotion(STOP);
+	osDelay(EN_STOP_DELAY);
+	
+	double count = distance/20.5*20;
 	LEFT_COUNTER=0;
 	RIGHT_COUNTER=0;
-	
-	setMotion_and_Speed(FORWARD,30);
+	setMotion_and_Speed(FORWARD,100);
 	while(LEFT_COUNTER <= count || RIGHT_COUNTER <= count){}
+	setMotion_and_Speed(BACKWARD,5);
+	osDelay(200);
 	setMotion(STOP);
-	osDelay(700);
 }
 
 void turn_degree(enum directions_t Direction,int angle)
 {
+	setMotion(STOP);
+	osDelay(EN_STOP_DELAY);
+	
 	double distance = angle*17.5*3.14/360;
 	double count = distance*20/20.5;
 	tmp = count;
@@ -171,9 +178,17 @@ void turn_degree(enum directions_t Direction,int angle)
 	
 	LEFT_COUNTER=0;
 	RIGHT_COUNTER=0;
-	
-	setMotion_and_Speed(Direction,50);
+
+	setMotion_and_Speed(Direction,80);
 	while(LEFT_COUNTER <= count || RIGHT_COUNTER <= count){}
+	if(Direction == SPIN_LEFT)
+	{
+		setMotion_and_Speed(SPIN_RIGHT,5);
+	}
+	else
+	{
+		setMotion_and_Speed(SPIN_LEFT,5);
+	}
+	osDelay(200);
 	setMotion(STOP);
-	osDelay(700);
 }
