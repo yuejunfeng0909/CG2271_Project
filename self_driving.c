@@ -12,7 +12,7 @@ osSemaphoreId_t selfDriving;
 
 volatile int US_STOP_DISNTANCE = 20;
 volatile int US_DIS = 99;
-int isAfterSelfDriving = 0;
+int isFinished = 0;
 
 void approach(void)
 {
@@ -52,9 +52,9 @@ void self_driving(void *argument)
 {
 	// add semaphore
 	US_DIS = 99;
-	isAfterSelfDriving = 0;
+	isFinished = 0;
 	approach();
 	run_around_obstacle();
 	forward_distance(300);
-	isAfterSelfDriving = 1;
+	isFinished = 1;
 }

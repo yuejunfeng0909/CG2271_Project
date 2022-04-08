@@ -3,6 +3,7 @@
 
 extern osThreadId_t led_control_ID;
 extern osSemaphoreId_t motor_sem;
+extern int isFinished;
 osSemaphoreId_t brain_sem;
 
 int isSelfDriving = 0;
@@ -26,6 +27,10 @@ void brain_thread(void *arguments) {
 			case SELF_DRIVING_COMMAND:
 				isSelfDriving = 1;
 				osThreadNew(self_driving, NULL, NULL);
+				break;
+			case BUZZER_COMMAND:
+				isFinished = 1;
+				break;
 			default:
 				break;
 		}
