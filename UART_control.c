@@ -13,10 +13,6 @@ void initUART2(void)
 	SIM->SCGC4 |= SIM_SCGC4_UART2_MASK; // enable clock to UART2 module
 	SIM->SCGC5 |= SIM_SCGC5_PORTE_MASK; // enable clock to PORTE module
 	
-	// configure PORTE for TX
-//	PORTE->PCR[UART_TX_PORTE22] &= ~PORT_PCR_MUX_MASK; // clear MUX
-//	PORTE->PCR[UART_TX_PORTE22] |= PORT_PCR_MUX(4); // set MUX to alt 4, which is UART2_TX
-	
 	// configure PORTE for RX
 	PORTE->PCR[UART_RX_PORTE23] &= ~PORT_PCR_MUX_MASK; // clear MUX
 	PORTE->PCR[UART_RX_PORTE23] |= PORT_PCR_MUX(4); // set MUX to alt 4, which is UART2_RX

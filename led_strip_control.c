@@ -118,11 +118,6 @@ void front_strip_lighted_up(void) {
 	delay(STAT_GREEN_DELAY);
 }
 
-//void front_strip_control_thread(void *arguments) {
-  //for (;;) {
-    //front_strip_lighted_up();
-  //}
-//}
 
 void initRearStrip(void) 
 {

@@ -5,8 +5,6 @@ extern uint8_t remote_command;
 
 osThreadId_t led_control_ID;
 
-//osSemaphoreId_t LED_sem;
-
 void led_r(uint8_t val)
 {
 	if (val == 0)
@@ -85,7 +83,6 @@ void initLED(void)
 
 void led_control_thread(void *arguments) {
 	for (;;) {
-		//osSemaphoreAcquire(LED_sem, osWaitForever);
 		osThreadFlagsWait(0x00000001, osFlagsWaitAny, osWaitForever);
 	
 		switch ((remote_command >> 1) & 0b11) {

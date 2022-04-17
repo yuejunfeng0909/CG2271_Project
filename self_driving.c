@@ -50,7 +50,6 @@ void run_around_obstacle(void)
 
 void self_driving(void *argument)
 {
-	// add semaphore
 	US_DIS = 99;
 	isFinished = 0;
 	approach();

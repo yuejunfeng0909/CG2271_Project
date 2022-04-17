@@ -15,7 +15,6 @@ void init_pit(void)
 	PIT->MCR |= PIT_MCR_FRZ_MASK;
 	
 	//Initialize PIT0 to count down from starting_value
-	// PIT->CHANNEL[0].LDVAL = 0x9FFFFF;   //every 1s 
 	PIT->CHANNEL[0].LDVAL = 0x68; // every 10 us 
 	//No chaining of timers
 	PIT->CHANNEL[0].TCTRL &= PIT_TCTRL_CHN_MASK;
