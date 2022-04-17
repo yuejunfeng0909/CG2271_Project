@@ -31,9 +31,7 @@ int main (void) {
   osThreadNew(brain_thread, NULL, NULL);
 	led_control_ID = osThreadNew(led_control_thread, NULL, NULL);
 	osThreadNew(motor_thread, NULL, NULL);
-	osThreadNew(audio_control_thread, NULL, NULL);
-	//osThreadNew(front_strip_control_thread, NULL, NULL);
-	//osThreadNew(rear_strip_control_thread, NULL, NULL);
+	osThreadNew(audio_control_thread, NULL, NULL); 
 	osThreadNew(front_led_strip_thread, NULL, NULL);
 	osThreadNew(rear_led_strip_thread, NULL, NULL);
   osKernelStart();                      // Start thread execution

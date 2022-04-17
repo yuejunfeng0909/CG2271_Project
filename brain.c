@@ -37,27 +37,3 @@ void brain_thread(void *arguments) {
 	}
 }
 
-//void brain_thread(void *arguments) {
-//	// decode command
-//	for (;;) {
-//		osSemaphoreAcquire(brain_sem, osWaitForever);
-//		switch (remote_command >> 3) {
-//			case LED_COMMAND:
-//				osSemaphoreRelease(LED_sem);
-//				break;
-//			case MOTOR_COMMAND:
-//				osSemaphoreRelease(motor_sem);
-//				break;
-//			case SPEED_COMMAND:
-//				osSemaphoreRelease(speed_sem);
-//				break;
-//			case BUZZER_COMMAND:
-//				osSemaphoreRelease(audio_sem);
-//				break;
-//			case SELF_DRIVING_COMMAND:
-//				osSemaphoreRelease(sd_sem);
-//				break;
-//		}
-//	}
-//}
-

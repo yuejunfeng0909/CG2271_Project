@@ -24,9 +24,6 @@ void initUS_Sensor(void)
 	
 	PORTC->PCR[ECHO_PIN] &= ~PORT_PCR_MUX_MASK; 
 	PORTC->PCR[ECHO_PIN] |= (PORT_PCR_MUX(1));
-	//|
-	//												PORT_PCR_PE_MASK);
-	//PORTD->PCR[ECHO_PIN] &=	~PORT_PCR_PS_MASK;
 	
 	// Set Data Direction Registers for PortB and PortD 
 	PTC->PDDR |= MASK(TRIG_PIN);
